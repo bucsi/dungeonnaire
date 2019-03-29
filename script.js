@@ -1,12 +1,14 @@
 var terkep = [
-    [1,1,0,0,0,0,0,0],
-    [0,1,1,1,1,1,1,1],
-    [1,1,1,0,0,0,0,1],
-    [1,0,0,0,0,0,0,1],
-    [1,1,1,1,1,1,1,1],
-    [1,0,0,0,0,1,0,0],
-    [1,0,0,0,0,1,0,0],
-    [1,0,0,0,0,1,0,0],
+    [1,1,0,0,0,0,0,0,0,0],
+    [0,1,1,1,1,1,1,1,0,0],
+    [1,1,1,0,0,0,0,1,0,0],
+    [1,0,0,0,0,0,0,1,0,0],
+    [1,1,1,1,1,1,1,1,0,0],
+    [1,0,0,0,0,1,0,0,0,0],
+    [1,0,0,0,0,1,0,0,0,0],
+    [1,0,0,0,0,1,0,0,0,0],
+    [1,0,0,0,0,1,0,0,0,1],
+    [1,0,0,0,0,1,0,0,0,1]
 ]; 
 
 function startGame(){
@@ -15,10 +17,10 @@ function startGame(){
 
 function rajzol(){
     var szobak = [];
-    for(let i=0; i<8;i++){
-        for (let j=0; j<9; j++){
+    for(let i=0; i<10;i++){
+        for (let j=0; j<10; j++){
             if(terkep[i][j]){
-                let sz = new szoba(60,60,"saddlebrown",0+j*60,0+i*60);
+                let sz = new szoba(100,100,"saddlebrown",0+j*100,0+i*100);
                 szobak.push(sz)
             }
         }
@@ -28,12 +30,13 @@ function rajzol(){
 var jatekTer = {
     canvas : document.createElement("canvas"),
     start : function(){
-        this.canvas.width = 480;
-        this.canvas.height = 480;
+        this.canvas.width = 1000;
+        this.canvas.height = 1000;
         this.context = this.canvas.getContext("2d");
         //document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         document.getElementById("canvas-container").appendChild(this.canvas);
-        /*this.context.beginPath();
+        /*dotted grid over the canvas
+        this.context.beginPath();
         for (var x=0.5;x<480;x+=60) {
             this.context.moveTo(x,0);
             this.context.lineTo(x,480);
@@ -56,6 +59,8 @@ function szoba(w, h, col, x, y){
     ctx.fillStyle = col;
     ctx.fillRect(x, y, w, h);
     
+
+    
     ctx.beginPath();
     
     ctx.moveTo(x, y+h/3);
@@ -74,7 +79,7 @@ function szoba(w, h, col, x, y){
     ctx.lineTo(x, y+h);
     ctx.lineTo(x, y+2*w/3);
     
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 4;
     ctx.strokeStyle = "black";
     ctx.setLineDash([]);
     ctx.stroke();
