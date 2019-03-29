@@ -4,12 +4,14 @@
 <meta charset="utf-8" />
 <link rel="stylesheet" href="style.css"/>
 <title>Útvesztő</title>
-</head><body>
+<script src="script.js"></script>
+</head><body onload="draw()">
 <header><h1>Útvesztő<span id="ver"><sup>alpha</sup></span></h1></header>
 <main>
 <div id="canvas-container">
-<canvas id="canvas"></canvas>
+<canvas id="canvas" width="500" height="500" onclick="showCoords(event)"></canvas>
 </div>
+<p id="showCoords">poop</p>
 </main>
 <footer><p> (c) Bucsánszki Tamás 2019.</p></footer>
 </body>
