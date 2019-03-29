@@ -18,7 +18,7 @@ function rajzol(){
     for(let i=0; i<8;i++){
         for (let j=0; j<9; j++){
             if(terkep[i][j]){
-                let sz = new szoba(60,60,"brown",0+j*60,0+i*60);
+                let sz = new szoba(60,60,"saddlebrown",0+j*60,0+i*60);
                 szobak.push(sz)
             }
         }

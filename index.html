@@ -2,6 +2,7 @@
 <html lang="hu">
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css"/>
     <title>Útvesztő</title>
     <script src="script.js"></script>
@@ -9,7 +10,7 @@
 <body onload="startGame()">
     <header><h1>Útvesztő<sup><span id="ver">alpha</span></sup></h1></header>
     <main>
-        <input type="button" id="start" value="Start" onclick="rajzol()"/>
+        <div id="button-container"><input type="button" id="start" value="Start" onclick="rajzol()"/></div>
         <div id="canvas-container">
             
         </div>
