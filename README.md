@@ -1,7 +1,7 @@
 # Útvesztő - gamifikált kvíz
 
-A github repó cska a verziókezelés egyszerűsítéséért készült, a program jelen állapotában semmire sem 
-használható.
+A github repó csak a verziókezelés egyszerűsítéséért készült, a program jelen állapotában semmire sem 
+használható, feljesztés alatt áll.
 
 # Utveszto - an educational app
 
