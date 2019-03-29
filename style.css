@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Caveat|Milonga');
+
 body{
-	font-family: Arial, sans-serif;
+	font-family: "Milonga", sans-serif;
 }
 header{
 }
@@ -11,9 +13,15 @@ h1{
 	widht: 100%;
 	text-align: center;
 }
-#canvas{
+canvas{
 	display:inline;
 	border: 2px solid black;
+    background-color: black; 
+}
+
+#ver{
+	font-size: 0.7em;
+	font-family: "Caveat", sans-serif;
 }
 
 footer{
