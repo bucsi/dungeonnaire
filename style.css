@@ -1,0 +1,22 @@
+body{
+	font-family: Arial, sans-serif;
+}
+header{
+}
+
+h1{
+	text-align:center;
+}
+#canvas-container{
+	widht: 100%;
+	text-align: center;
+}
+#canvas{
+	display:inline;
+	background-color: #ccc;
+}
+
+footer{
+	position: absolute;
+	bottom: 2px;
+}
