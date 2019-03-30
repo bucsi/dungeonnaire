@@ -8,13 +8,24 @@
     <script src="script.js"></script>
 </head>
 <body onload="startGame()">
-    <header><h1>Útvesztő<sup><span id="ver">alpha</span></sup></h1></header>
+    <header>
+	    <input type="button" id="info" value="Info" onclick="about()"/>
+	    <input type="button" id="start" value="Start" onclick="rajzol()"/>
+	<h1>
+	    
+	    Útvesztő
+	    <sup>
+		<span id="ver">alpha</span>
+	    </sup>
+	</h1>
+	
+    </header>
     <main>
-        <div id="button-container"><input type="button" id="start" value="Start" onclick="rajzol()"/></div>
         <div id="canvas-container">
-            
+            <div id="canvas-game" class="col"></div>
+	    <div id="canvas-task" class="col"></div>
         </div>
     </main>
-    <footer><p> (c) Bucsánszki Tamás 2019.</p></footer>
+    <footer></footer>
 </body>
 </html>

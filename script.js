@@ -13,8 +13,13 @@ var terkep = [
 
 var szobak = [];
 
+function about(){
+	alert("Gamifikált teszt. (C) Bucsánszki Tamás 2019.\nforráskód a GitHubon: https://github.com/bucsi/utveszto")
+}
+
 function startGame(){
     jatekTer.start();
+    feladatTer.start();
     player = new _player(500, 500);
     
     /*
@@ -66,30 +71,34 @@ var jatekTer = {
         this.canvas.width = 1000;
         this.canvas.height = 1000;
         this.context = this.canvas.getContext("2d");
-        //document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        document.getElementById("canvas-container").appendChild(this.canvas);
+	this.canvas.setAttribute("id", "game");
+        document.getElementById("canvas-game").appendChild(this.canvas);
 	this.interval = setInterval(updateTer, 20);
-        /*dotted grid over the canvas
-        this.context.beginPath();
-        for (var x=0.5;x<480;x+=60) {
-            this.context.moveTo(x,0);
-            this.context.lineTo(x,480);
-        }
-        for (var y=0.5; y<480; y+=60) {
-            this.context.moveTo(0,y);
-            this.context.lineTo(480,y);
-        }
-        //this.context.strokeStyle='grey';
-        //this.context.setLineDash([1,4]);
-        this.context.lineWidth = 2;
-        this.context.strokeStyle = "black";
-        this.context.stroke();*/
+        
     },
     clear : function() {
     	this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	console.log("update");
     }
 }
+
+var feladatTer = {
+    canvas : document.createElement("canvas"),
+    start : function(){
+        this.canvas.width = 800;
+        this.canvas.height = 1000;
+        this.context = this.canvas.getContext("2d");
+	this.canvas.setAttribute("id", "task");
+        document.getElementById("canvas-task").appendChild(this.canvas);
+	this.interval = setInterval(updateTer, 20);
+        
+    },
+    clear : function() {
+    	this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	console.log("update");
+    }
+}
+
 
 function _player(px,py){
     this.x = px-10;
@@ -137,3 +146,22 @@ function _szoba(w, h, col, x, y){
     	ctx.stroke();
     }
 }
+
+
+/*
+dotted grid over the canvas
+this.context.beginPath();
+for (var x=0.5;x<480;x+=60) {
+    this.context.moveTo(x,0);
+    this.context.lineTo(x,480);
+}
+for (var y=0.5; y<480; y+=60) {
+    this.context.moveTo(0,y);
+    this.context.lineTo(480,y);
+}
+//this.context.strokeStyle='grey';
+//this.context.setLineDash([1,4]);
+this.context.lineWidth = 2;
+this.context.strokeStyle = "black";
+this.context.stroke();
+*/
