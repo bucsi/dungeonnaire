@@ -43,7 +43,7 @@ h1{
 #task {
     display:inline;
     border: 2px solid black;
-    background-color: #ccc; 
+    background-image: url("paper.jpg"); 
     width: 64vh;
     border-radius: 0px 5px 5px 0px;
 }
