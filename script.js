@@ -15,13 +15,22 @@ var szobak = [];
 
 function startGame(){
     jatekTer.start();
-    player = new _player(500, 500);      
+    player = new _player(500, 500);
+    
+    /*
+    let a,b;
+    list destruction
+    [a, b] = ["A", "B"];
+    alert(a + ":" + b);
+    */
 }
 
 function updateTer(){
     jatekTer.clear();
     for(let sz of szobak){
-	sz.update();
+	if(!sz.hidden){
+	    sz.update();
+       }
     }
     if(player.x < 1000){
     	player.x += 1
@@ -41,6 +50,14 @@ function rajzol(){
             }
         }
     }
+    szobak[0].hidden = false;
+}
+
+function convertCoord(x, y){
+//maps canvas x and y to terkep i and j
+	let i = x;
+	let j = y;
+return [i,j];
 }
 
 var jatekTer = {
@@ -86,33 +103,7 @@ function _player(px,py){
     
 function _szoba(w, h, col, x, y){
     ctx = jatekTer.context;
-
-    	ctx.fillStyle = col;
-    	ctx.fillRect(x, y, w, h);
-    
-    	ctx.beginPath();
-    
-    	ctx.moveTo(x, y+h/3);
-    	ctx.lineTo(x, y);
-    	ctx.lineTo(x+w/3, y);
-    
-    	ctx.moveTo(x+2*w/3, y);
-    	ctx.lineTo(x+w, y);
-    	ctx.lineTo(x+w, y+h/3);
-    
-    	ctx.moveTo(x+w, y+2*h/3);
-    	ctx.lineTo(x+w, y+h);
-    	ctx.lineTo(x+2*w/3, y+h);
-    
-    	ctx.moveTo(x+w/3, y+h);
-    	ctx.lineTo(x, y+h);
-    	ctx.lineTo(x, y+2*w/3);
-    
-    	ctx.lineWidth = 4;
-    	ctx.strokeStyle = "black";
-   	ctx.setLineDash([]);
-    	ctx.stroke();
-
+    this.hidden = true;
     console.log("szoba constructed.");
     
 
