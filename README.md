@@ -1,8 +1,10 @@
-# Útvesztő - gamifikált kvíz
+# Dungeonnaire - gamifikált tesztfeladatok
 
-A github repó csak a verziókezelés egyszerűsítéséért készült, a program jelen állapotában semmire sem 
-használható, feljesztés alatt áll.
+A játékos feladata egy kazamata felderítése, ahol a lehető leghalálosabb feladatok várnak rá: tesztkérdésekre kell válaszolnia. A sikeres próbákért viszont jutalomban részesül, amit tudásának bővítésére költhet.
 
-# Utveszto - an educational app
+A github repó csak a verziókezelés egyszerűsítéséért készült, a program jelen állapotában nem 
+használandó, feljesztés alatt áll.
 
-Under development.
+# Dungeonnaire - an educational app
+
+Hungarian educational app idea - under development.
