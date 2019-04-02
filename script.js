@@ -1,26 +1,26 @@
 var terkep = [
-    [1,1,0,0,0,0,0,0,0,0],
-    [0,1,1,1,1,1,1,1,0,0],
-    [1,1,1,0,0,0,0,1,0,0],
-    [1,0,0,0,0,0,0,1,0,0],
-    [1,1,1,1,1,1,1,1,0,0],
-    [1,0,0,0,0,1,0,0,0,0],
-    [1,0,0,0,0,1,0,0,0,0],
-    [1,0,0,0,0,1,0,0,0,0],
-    [1,0,0,0,0,1,0,0,0,1],
-    [1,0,0,0,0,1,0,0,0,1]
-]; 
+    [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+    [1, 1, 1, 0, 0, 0, 0, 1, 0, 0],
+    [1, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+    [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+];
 
 var szobak = [];
 
-function about(){
-	alert("Gamifikált teszt. (C) Bucsánszki Tamás 2019.\nforráskód a GitHubon: https://github.com/bucsi/utveszto")
+function about() {
+	alert("Gamifikált teszt. (C) Bucsánszki Tamás 2019.\nforráskód a GitHubon: https://github.com/bucsi/utveszto");
 }
 
-function startGame(){
+function startGame() {
     jatekTer.start();
     feladatTer.start();
-    player = new _player(500, 500);
+    player = new Player(500, 500);
     //convertCoord(0,0);
     /*
     let a,b;
@@ -30,15 +30,38 @@ function startGame(){
     */
 }
 
-function updateTer(){
+function updateTer() {
     //alert(terkep);
     jatekTer.clear();
-    for(let sor of szobak){
+    for (let sor of szobak){
         for(let sz of sor){
-            if(!sz.hidden){
-               sz.update();
-           }
+            if(sz){
+                if(playerInRoom(sz)){
+                    ii = sz.i;
+                    jj = sz.j;
+                    if(ii < 9){
+                        szobak[ii+1][jj].hidden = false;
+                    }
+                    if(jj < 9){
+                        szobak[ii][jj+1].hidden = false;
+                    }
+                    if(ii > 0){
+                        szobak[ii-1][jj].hidden = false;
+                    }
+                    if(jj > 0){
+                        szobak[ii][jj-1].hidden = false;
+                    }
+                }
+                if(!sz.hidden){
+                   sz.update();
+               }
+            }
         }
+    }
+    [xx, yy] = screenToCanvas(jatekTer.mx, jatekTer.my, jatekTer.canvas);
+    if(xx>0 && xx<1000 && yy>0 && xx<1000 && Math.abs(xx-player.x)<130 && Math.abs(yy-player.y)<130 && canvasPointIsRoom(xx, yy)){
+        player.x = xx;
+        player.y = yy;
     }
     player.update();
     //console.log(convertCoord(jatekTer.mx, jatekTer.my, jatekTer.canvas))
@@ -50,8 +73,10 @@ function rajzol(){
         let l = []
         for (let j=0; j<10; j++){
             if(terkep[i][j]){
-                let sz = new _szoba(100,100,"saddlebrown",0+j*100,0+i*100, i, j);
+                let sz = new Szoba(100,100,"saddlebrown",0+j*100,0+i*100, i, j);
                  l.push(sz);
+            }else{
+                l.push(0);
             }
         }
         szobak.push(l);
@@ -60,16 +85,34 @@ function rajzol(){
     szobak[0][0].hidden = false;
     player.x = szobak[0][0].pos.x;
     player.y = szobak[0][0].pos.y;
+    
 }
 
-function convertCoord(px, py, cvs){
+function screenToCanvas(px, py, cvs){
 //maps window mouse coords to real canvas cords
 	let rect = cvs.getBoundingClientRect();
     scaleX = cvs.width / rect.width,
     scaleY = cvs.height / rect.height;
-    return{
-        x: (px - rect.left)*scaleX,
-        y: (py - rect.top)*scaleY
+    return [(px - rect.left)*scaleX, (py - rect.top)*scaleY]
+    
+}
+
+function playerInRoom(szoba){
+    if(player.x > szoba.pos.x-50 && player.x < szoba.pos.x+50 && player.y > szoba.pos.y-50 && player.y < szoba.pos.y+50){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function canvasPointIsRoom(px, py){
+    i = Math.ceil(px/100)-1;
+    j = Math.ceil(py/100)-1;
+    console.log(i + " " + j + szobak[j][i])
+    if(szobak[j][i]){
+        return true;
+    }else{
+        return false;
     }
 }
 
@@ -82,9 +125,10 @@ var jatekTer = {
 	    this.canvas.setAttribute("id", "game");
         document.getElementById("canvas-game").appendChild(this.canvas);
 	    this.interval = setInterval(updateTer, 20);
-        window.addEventListener('mousemove', function(e){
+        window.addEventListener('click', function(e){
             jatekTer.mx = e.pageX;
             jatekTer.my = e.pageY;
+            //console.log(convertCoord(jatekTer.mx, jatekTer.my, jatekTer.canvas));
         })
           
     },
@@ -113,7 +157,7 @@ var feladatTer = {
 }
 
 
-function _player(px,py){
+function Player(px,py){
     this.x = px-10;
     this.y = py-10;
     ctx = jatekTer.context;
@@ -123,7 +167,7 @@ function _player(px,py){
     }
 }
     
-function _szoba(w, h, col, x, y, ii, jj){
+function Szoba(w, h, col, x, y, ii, jj){
     ctx = jatekTer.context;
     this.hidden = true;
     this.i = ii;
