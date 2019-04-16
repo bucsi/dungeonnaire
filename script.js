@@ -85,9 +85,9 @@ function updateTer() {
                         terkep[ii][jj-1].hidden = false;
                     }
                 }
-                if(!sz.hidden){
-                   sz.update();
-               }
+                
+               sz.update();
+               
             }
         }
     }
@@ -223,33 +223,34 @@ function Szoba(w, h, col, x, y, ii, jj){
     
 
 
-    this.update = function(){
-	//console.log("szoba updated.");
-    	ctx.fillStyle = col;
-    	ctx.fillRect(x, y, w, h);
-    
-    	ctx.beginPath();
-    
-    	ctx.moveTo(x, y+h/3);
-    	ctx.lineTo(x, y);
-    	ctx.lineTo(x+w/3, y);
-    
-    	ctx.moveTo(x+2*w/3, y);
-    	ctx.lineTo(x+w, y);
-    	ctx.lineTo(x+w, y+h/3);
-    
-    	ctx.moveTo(x+w, y+2*h/3);
-    	ctx.lineTo(x+w, y+h);
-    	ctx.lineTo(x+2*w/3, y+h);
-    
-    	ctx.moveTo(x+w/3, y+h);
-    	ctx.lineTo(x, y+h);
-    	ctx.lineTo(x, y+2*w/3);
-    
-    	ctx.lineWidth = 4;
-    	ctx.strokeStyle = "black";
-   	ctx.setLineDash([]);
-    	ctx.stroke();
+    this.update = function(){ 
+	   if(!this.hidden){
+            ctx.fillStyle = col;
+            ctx.fillRect(x, y, w, h);
+
+            ctx.beginPath();
+
+            ctx.moveTo(x, y+h/3);
+            ctx.lineTo(x, y);
+            ctx.lineTo(x+w/3, y);
+
+            ctx.moveTo(x+2*w/3, y);
+            ctx.lineTo(x+w, y);
+            ctx.lineTo(x+w, y+h/3);
+
+            ctx.moveTo(x+w, y+2*h/3);
+            ctx.lineTo(x+w, y+h);
+            ctx.lineTo(x+2*w/3, y+h);
+
+            ctx.moveTo(x+w/3, y+h);
+            ctx.lineTo(x, y+h);
+            ctx.lineTo(x, y+2*w/3);
+
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = "black";
+            ctx.setLineDash([]);
+            ctx.stroke();
+       }
     }
 }
 
