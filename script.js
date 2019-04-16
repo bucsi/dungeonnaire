@@ -93,6 +93,8 @@ function updateTer() {
             player.x = xx;
             player.y = yy;
             oldxy = [xx, yy]
+            feladatTer.clear();
+            showSzoba(Math.ceil(xx / 100) - 1, Math.ceil(yy / 100) - 1);
         }
     }
     player.update();
@@ -156,7 +158,7 @@ function canvasPointIsVisibleRoom(px, py) {
     }
 }
 
-var jatekTer = {
+let jatekTer = {
     canvas: document.createElement("canvas"),
     start: function () {
         this.canvas.width = 1000;
@@ -179,7 +181,7 @@ var jatekTer = {
 
 }
 
-var feladatTer = {
+let feladatTer = {
     canvas: document.createElement("canvas"),
     start: function () {
         this.canvas.width = 800;
@@ -188,6 +190,11 @@ var feladatTer = {
         this.canvas.setAttribute("id", "task");
         document.getElementById("canvas-task").appendChild(this.canvas);
         this.interval = setInterval(updateTer, 20);
+        window.addEventListener('click', function (e) {
+            feladatTer.mx = e.pageX;
+            feladatTer.my = e.pageY;
+            //console.log(convertCoord(jatekTer.mx, jatekTer.my, jatekTer.canvas));
+        })
 
     },
     clear: function () {
@@ -207,6 +214,33 @@ function Player(px, py) {
     }
 }
 
+function showSzoba(row, col){
+    let sz = terkep[row][col];
+    let ctx = feladatTer.context;
+    
+    let x = 200
+    let y = 100
+    let w = 400
+    let h = 400
+    let texture = document.getElementById("texture")
+    ctx.fillStyle = ctx.createPattern(texture, "repeat");
+    ctx.fillRect(x, y, w, h);
+
+    ctx.beginPath();
+    ctx.moveTo(x,y);
+    ctx.lineTo(x+w-3, y);
+    ctx.lineTo(x, y+h-3);
+    
+    ctx.moveTo(x+w, y+h);
+    ctx.lineTo(x+w-3, y);
+    ctx.lineTo(x, y+h-3);
+
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = "black";
+    ctx.setLineDash([]);
+    ctx.stroke();
+}
+
 function Szoba(w, h, col, x, y, ii, jj) {
     ctx = jatekTer.context;
     this.hidden = true;
@@ -216,10 +250,6 @@ function Szoba(w, h, col, x, y, ii, jj) {
         x: x + w / 2,
         y: y + h / 2
     }
-    console.log("szoba constructed.");
-
-
-
     this.update = function () {
         if (!this.hidden) {
             ctx.fillStyle = col;

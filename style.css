@@ -1,100 +1,110 @@
 @import url('https://fonts.googleapis.com/css?family=Caveat|Milonga');
 
-body{
-	font-family: "Milonga", sans-serif;
-}
-header{
-	position: relative;
-	//width: 100%;
-	text-align: left;
+body {
+    font-family: "Milonga", sans-serif;
 }
 
-h1{
-	margin: 0;
-}
-#canvas-container{
-	width:100%;
-	position:relative;
+header {
+    position: relative;
+    //width: 100%;
+    text-align: left;
 }
 
-.col{
+h1 {
+    margin: 0;
+}
+
+img#texture {
+    display: none;
+}
+
+#canvas-container {
+    width: 100%;
+    position: relative;
+}
+
+.col {
     widht: 50%;
 }
 
-#canvas-game{
-    text-align:right;
-    position:absolute;
+#canvas-game {
+    text-align: right;
+    position: absolute;
     right: 48%;
 }
 
-#canvas-task{
-	position:absolute;
-	left:52%;
+#canvas-task {
+    position: absolute;
+    left: 52%;
 }
-#game{
-	display:inline;
-	border: 2px solid black;
-    background-color: black; 
+
+#game {
+    display: inline;
+    border: 2px solid black;
+    background-color: black;
     width: 80vh;
     border-radius: 5px 0px 0px 5px;
-    
+
 }
 
 #task {
-    display:inline;
+    display: inline;
     border: 2px solid black;
-    background-image: url("paper.jpg"); 
+    background-image: url("paper.jpg");
     width: 64vh;
     border-radius: 0px 5px 5px 0px;
 }
 
-input[type="button"]{
+input[type="button"] {
     position: absolute;
     font-family: inherit;
     width: 3em;
     font-weight: bold;
     padding: 5px 10px 5px 10px;
     border-radius: 5px;
-    border: 0; 
+    border: 0;
     font-size: 1.5em;
     cursor: pointer;
 }
 
-#switch{
+#switch {
     right: 0;
     background-color: saddlebrown;
     width: 4em;
 }
 
-#info{
+#info {
     background-color: #ccc;
     right: 4.2em;
 }
 
-#ver{
-	font-size: 0.7em;
-	font-family: "Caveat", cursive;
+#ver {
+    font-size: 0.7em;
+    font-family: "Caveat", cursive;
 }
 
-footer{
-	position: absolute;
-	bottom: 2px;
+footer {
+    position: absolute;
+    bottom: 2px;
 }
 
-@media screen and (max-width: 600px){
-    .col{
-	width: 100%;
-	position:static !important;
-	left:auto !important;
-	right:auto !important;
-	text-align: center !important;
+@media screen and (max-width: 600px) {
+    .col {
+        width: 100%;
+        position: static !important;
+        left: auto !important;
+        right: auto !important;
+        text-align: center !important;
     }
-    #game{
+
+    #game {
         width: 90vw;
     }
-    #task{
-	width: 90vw;
+
+    #task {
+        width: 90vw;
     }
-    canvas{
-	border-radius: 5px 5px 5px 5px !important;
-}
+
+    canvas {
+        border-radius: 5px 5px 5px 5px !important;
+    }
