@@ -1,4 +1,4 @@
-var terkep = [
+let terkep = [
     [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
     [1, 1, 1, 0, 0, 0, 0, 1, 0, 0],
@@ -10,46 +10,79 @@ var terkep = [
     [1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 1, 0, 0, 0, 1]
 ];
+let oldxy = [-1,-1];
+let szemafor = true;
 
-var szobak = [];
+function switchMap(){
+    if(szemafor){
+        terkep = [
+            [1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ];
+        szemafor = !szemafor;
+        startGame();
+    }else{
+        terkep = [
+            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+            [1, 1, 1, 0, 0, 0, 0, 1, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+            [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 1, 0, 0, 0, 1]
+        ];
+        szemafor = !szemafor;
+        startGame();
+    }
+}
 
 function about() {
 	alert("Gamifikált teszt. (C) Bucsánszki Tamás 2019.\nforráskód a GitHubon: https://github.com/bucsi/utveszto");
+    for(let line of terkep){
+        for(let elem of line){
+            console.log(elem)
+        }
+        console.log("\n\n")
+    }
 }
 
 function startGame() {
     jatekTer.start();
     feladatTer.start();
     player = new Player(500, 500);
-    //convertCoord(0,0);
-    /*
-    let a,b;
-    list destruction
-    [a, b] = ["A", "B"];
-    alert(a + ":" + b);
-    */
+    rajzol();    
 }
 
 function updateTer() {
-    //alert(terkep);
     jatekTer.clear();
-    for (let sor of szobak){
+    for (let sor of terkep){
         for(let sz of sor){
             if(sz){
                 if(playerInRoom(sz)){
                     ii = sz.i;
                     jj = sz.j;
                     if(ii < 9){
-                        szobak[ii+1][jj].hidden = false;
+                        terkep[ii+1][jj].hidden = false;
                     }
                     if(jj < 9){
-                        szobak[ii][jj+1].hidden = false;
+                        terkep[ii][jj+1].hidden = false;
                     }
                     if(ii > 0){
-                        szobak[ii-1][jj].hidden = false;
+                        terkep[ii-1][jj].hidden = false;
                     }
                     if(jj > 0){
-                        szobak[ii][jj-1].hidden = false;
+                        terkep[ii][jj-1].hidden = false;
                     }
                 }
                 if(!sz.hidden){
@@ -58,10 +91,14 @@ function updateTer() {
             }
         }
     }
-    [xx, yy] = screenToCanvas(jatekTer.mx, jatekTer.my, jatekTer.canvas);
-    if(xx>0 && xx<1000 && yy>0 && xx<1000 && Math.abs(xx-player.x)<130 && Math.abs(yy-player.y)<130 && canvasPointIsRoom(xx, yy)){
-        player.x = xx;
-        player.y = yy;
+    let asw = screenToCanvas(jatekTer.mx, jatekTer.my, jatekTer.canvas);
+    if(asw && !oldxy.equals(asw)){
+        [xx, yy] = asw;
+        if(canvasPointIsVisibleRoom(xx, yy)){
+            player.x = xx;
+            player.y = yy;
+            oldxy = [xx, yy]
+        }
     }
     player.update();
     //console.log(convertCoord(jatekTer.mx, jatekTer.my, jatekTer.canvas))
@@ -70,21 +107,19 @@ function updateTer() {
 
 function rajzol(){
     for(let i=0; i<10;i++){
-        let l = []
         for (let j=0; j<10; j++){
             if(terkep[i][j]){
                 let sz = new Szoba(100,100,"saddlebrown",0+j*100,0+i*100, i, j);
-                 l.push(sz);
+                terkep[i][j] = sz;
             }else{
-                l.push(0);
+                terkep[i][j] = 0;
             }
         }
-        szobak.push(l);
     }
     
-    szobak[0][0].hidden = false;
-    player.x = szobak[0][0].pos.x;
-    player.y = szobak[0][0].pos.y;
+    terkep[0][0].hidden = false;
+    player.x = terkep[0][0].pos.x;
+    player.y = terkep[0][0].pos.y;
     
 }
 
@@ -93,7 +128,14 @@ function screenToCanvas(px, py, cvs){
 	let rect = cvs.getBoundingClientRect();
     scaleX = cvs.width / rect.width,
     scaleY = cvs.height / rect.height;
-    return [(px - rect.left)*scaleX, (py - rect.top)*scaleY]
+    let x = (px - rect.left)*scaleX;
+    let y = (py - rect.top)*scaleY;
+    if(x > 0 && x < 1000 && y > 0 && y < 1000){
+        return [x, y]
+    }else{
+        return false;
+    }
+    
     
 }
 
@@ -105,12 +147,16 @@ function playerInRoom(szoba){
     }
 }
 
-function canvasPointIsRoom(px, py){
+function canvasPointIsVisibleRoom(px, py){
     i = Math.ceil(px/100)-1;
     j = Math.ceil(py/100)-1;
-    console.log(i + " " + j + szobak[j][i])
-    if(szobak[j][i]){
-        return true;
+    console.log(i + " " + j + " " + terkep[j][i] + " rejtve? " + terkep[i][j].hidden)
+    if(terkep[j][i]){
+        if(terkep[i][j].hidden){
+            return false;
+        }else{
+            return true;
+        }
     }else{
         return false;
     }
@@ -208,20 +254,28 @@ function Szoba(w, h, col, x, y, ii, jj){
 }
 
 
-/*
-dotted grid over the canvas
-this.context.beginPath();
-for (var x=0.5;x<480;x+=60) {
-    this.context.moveTo(x,0);
-    this.context.lineTo(x,480);
+// array egyenlőság vizsgáló from starckoverflow
+
+Array.prototype.equals = function (array) {
+    // if the other array is a falsy value, return
+    if (!array)
+        return false;
+
+    // compare lengths - can save a lot of time 
+    if (this.length != array.length)
+        return false;
+
+    for (var i = 0, l=this.length; i < l; i++) {
+        // Check if we have nested arrays
+        if (this[i] instanceof Array && array[i] instanceof Array) {
+            // recurse into the nested arrays
+            if (!this[i].equals(array[i]))
+                return false;       
+        }           
+        else if (this[i] != array[i]) { 
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;   
+        }           
+    }       
+    return true;
 }
-for (var y=0.5; y<480; y+=60) {
-    this.context.moveTo(0,y);
-    this.context.lineTo(480,y);
-}
-//this.context.strokeStyle='grey';
-//this.context.setLineDash([1,4]);
-this.context.lineWidth = 2;
-this.context.strokeStyle = "black";
-this.context.stroke();
-*/

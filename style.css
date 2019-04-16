@@ -60,14 +60,15 @@ input[type="button"]{
     cursor: pointer;
 }
 
-#start{
+#switch{
     right: 0;
     background-color: saddlebrown;
+    width: 4em;
 }
 
 #info{
     background-color: #ccc;
-    right: 3.2em;
+    right: 4.2em;
 }
 
 #ver{
