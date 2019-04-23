@@ -13,6 +13,8 @@ let terkep = [
 let oldxy = [-1, -1];
 let szemafor = true;
 
+let kerdesek = [" lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? ", " lorem ipsum? "]
+
 function switchMap() {
     if (szemafor) {
         terkep = [
@@ -52,6 +54,8 @@ function about() {
     
 }
 
+
+//=========================================================================================================== játékterek definiálása, update
 function startGame() {
     jatekTer.start();
     feladatTer.start();
@@ -94,7 +98,9 @@ function updateTer() {
             player.y = yy;
             oldxy = [xx, yy]
             feladatTer.clear();
-            showSzoba(Math.ceil(xx / 100) - 1, Math.ceil(yy / 100) - 1);
+            console.log(Math.ceil(yy / 100) - 1, Math.ceil(xx / 100) - 1);
+            showSzoba(Math.ceil(yy / 100) - 1, Math.ceil(xx / 100) - 1);
+            szobaText(Math.ceil(yy / 100) - 1, Math.ceil(xx / 100) - 1);
         }
     }
     player.update();
@@ -103,11 +109,13 @@ function updateTer() {
 
 
 function rajzol() {
+    let id = 0;
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             if (terkep[i][j]) {
-                let sz = new Szoba(100, 100, "saddlebrown", 0 + j * 100, 0 + i * 100, i, j);
+                let sz = new Szoba(100, 100, "saddlebrown", 0 + j * 100, 0 + i * 100, i, j, id);
                 terkep[i][j] = sz;
+                id++;
             } else {
                 terkep[i][j] = 0;
             }
@@ -115,11 +123,13 @@ function rajzol() {
     }
 
     terkep[0][0].hidden = false;
+    showSzoba(0,0);
+    szobaText(0,0);
     player.x = terkep[0][0].pos.x;
     player.y = terkep[0][0].pos.y;
 
 }
-
+//=========================================================================================================== függvények
 function screenToCanvas(px, py, cvs) {
     //maps window mouse coords to real canvas cords
     let rect = cvs.getBoundingClientRect();
@@ -132,8 +142,6 @@ function screenToCanvas(px, py, cvs) {
     } else {
         return false;
     }
-
-
 }
 
 function playerInRoom(szoba) {
@@ -149,7 +157,7 @@ function canvasPointIsVisibleRoom(px, py) {
     let row = Math.ceil(py / 100) - 1;
     //debug
 
-    console.log(row + ". sor " + col + ". oszlop: " + terkep[row][col] + " " + terkep[row][col].hidden)
+    console.log(row + ". sor " + col + ". oszlop: " + terkep[row][col] + " " + terkep[row][col].hidden + " " + terkep[row][col].id)
     //debug
     if (terkep[row][col] != 0) {
         return !terkep[row][col].hidden;
@@ -157,6 +165,53 @@ function canvasPointIsVisibleRoom(px, py) {
         return false;
     }
 }
+
+function showSzoba(row, col){
+    let sz = terkep[row][col];
+    let ctx = feladatTer.context;
+    
+    let x = 200
+    let y = 100
+    let w = 400
+    let h = 400
+    let texture = document.getElementById("texture")
+    ctx.fillStyle = ctx.createPattern(texture, "repeat");
+    ctx.fillRect(x, y, w, h);
+
+    ctx.beginPath();
+    
+    ctx.font = "300px Arial";
+    ctx.fillText(sz.id,x+w/2,500);
+    
+    ctx.moveTo(x,y);
+    ctx.lineTo(x+w, y);
+    ctx.moveTo(x,y);
+    ctx.lineTo(x, y+h);
+    
+    ctx.moveTo(x+w, y+h);
+    ctx.lineTo(x+w, y);
+    ctx.moveTo(x+w, y+h);
+    ctx.lineTo(x, y+h);
+
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = "black";
+    ctx.setLineDash([]);
+    ctx.stroke();
+    
+}
+
+function szobaText(row, col){
+    let sz = terkep[row][col];
+    let ctx = feladatTer.context;
+    ctx.fillStyle = "black";
+    ctx.font = "50px Milonga";
+    ctx.textAlign = "center";
+    ctx.fillText(sz.id + ". szoba", feladatTer.canvas.width/2, feladatTer.canvas.height/15); 
+    ctx.fillText(kerdesek[sz.id], feladatTer.canvas.width/2, 3*feladatTer.canvas.height/5); 
+}
+
+
+//=========================================================================================================== objektumok definiálása
 
 let jatekTer = {
     canvas: document.createElement("canvas"),
@@ -203,6 +258,7 @@ let feladatTer = {
     }
 }
 
+//=========================================================================================================== példányosítható függvények
 
 function Player(px, py) {
     this.x = px - 10;
@@ -214,34 +270,8 @@ function Player(px, py) {
     }
 }
 
-function showSzoba(row, col){
-    let sz = terkep[row][col];
-    let ctx = feladatTer.context;
-    
-    let x = 200
-    let y = 100
-    let w = 400
-    let h = 400
-    let texture = document.getElementById("texture")
-    ctx.fillStyle = ctx.createPattern(texture, "repeat");
-    ctx.fillRect(x, y, w, h);
 
-    ctx.beginPath();
-    ctx.moveTo(x,y);
-    ctx.lineTo(x+w-3, y);
-    ctx.lineTo(x, y+h-3);
-    
-    ctx.moveTo(x+w, y+h);
-    ctx.lineTo(x+w-3, y);
-    ctx.lineTo(x, y+h-3);
-
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = "black";
-    ctx.setLineDash([]);
-    ctx.stroke();
-}
-
-function Szoba(w, h, col, x, y, ii, jj) {
+function Szoba(w, h, col, x, y, ii, jj, id) {
     ctx = jatekTer.context;
     this.hidden = true;
     this.row = ii;
@@ -250,6 +280,7 @@ function Szoba(w, h, col, x, y, ii, jj) {
         x: x + w / 2,
         y: y + h / 2
     }
+    this.id = id;
     this.update = function () {
         if (!this.hidden) {
             ctx.fillStyle = col;
